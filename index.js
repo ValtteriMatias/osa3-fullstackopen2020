@@ -41,6 +41,26 @@ app.get('/api/info', (req, res) => {
     res.send(`<p>Phonebook has info for ${count} people</p> <p>${date}</p>`)
   })
 
+
+const generateId = () => {
+  min = Math.ceil(0);
+  max = Math.floor(10000);
+  return Math.floor(Math.random() * (max - min)) + min
+}
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body
+
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: generateId()
+  }
+
+  persons = persons.concat(person)
+  response.json(person)
+})
+
 app.get('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
   const person = persons.find(person => person.id === id)
