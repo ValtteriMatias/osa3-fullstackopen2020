@@ -1,7 +1,10 @@
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
 const cors = require('cors')
+const Person = require('./models/person')
+
 
 app.use(express.static('build'))
 app.use(cors())
@@ -12,6 +15,13 @@ morgan.token('data', function getId (req) {
   return JSON.stringify(req.body)
 })
 
+const mongoose = require('mongoose')
+
+if (process.argv.length<3) {
+    console.log('give password as argument')
+    process.exit(1)
+  }
+  
 
 let persons = [
     {
@@ -41,8 +51,10 @@ app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
 })
 
-app.get('/api/persons', (req, res) => {
-  res.json(persons)
+app.get('/api/persons', (request, response) => {
+  Person.find({}).then(persons => {
+    response.json(persons)
+  })
 })
 
 app.get('/api/info', (req, res) => {
