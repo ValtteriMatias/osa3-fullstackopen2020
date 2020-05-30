@@ -55,12 +55,13 @@ app.get('/api/persons', (request, response) => {
   })
 })
 
-app.get('/api/info', (req, res) => {
-    let count = persons.length 
+app.get('/api/info', (request, response) => {
+  Person.find({}).then(persons => {
+    let count = persons.length
     let date = new Date()
-    res.send(`<p>Phonebook has info for ${count} people</p> <p>${date}</p>`)
+    response.send('<p>Phonebook has info for for ' + count + ' people <br> ' + date + '<p>')
   })
-
+})
 
 const generateId = () => {
   min = Math.ceil(0);
