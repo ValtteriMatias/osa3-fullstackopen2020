@@ -16,34 +16,9 @@ morgan.token('data', function getId (req) {
 })
 
 if (process.argv.length<3) {
-    console.log('give password as argument')
-    process.exit(1)
-  }
-  
-
-let persons = [
-    {
-        name: "Arto Hellas",
-        number: "040-123456",
-        id: 1
-      },
-      {
-        name: "Ada Lovelace",
-        number: "39-44-5323523",
-        id: 2
-      },
-      {
-        name: "Dan Abramov",
-        number: "12-43-234345",
-        id: 3
-      },
-      {
-        name: "Mary Poppendieck",
-        number: "39-23-6423122",
-        id: 4
-      }
-  
-]
+  console.log('give password as argument')
+  process.exit(1)
+}
 
 app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
@@ -64,30 +39,13 @@ app.get('/api/info', (request, response) => {
 })
 
 const generateId = () => {
-  min = Math.ceil(0);
-  max = Math.floor(10000);
+  const min = Math.ceil(0)
+  const max = Math.floor(10000)
   return Math.floor(Math.random() * (max - min)) + min
 }
 
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
-
-  if (!body.name) {
-    return response.status(400).json({ 
-      error: 'name missing' 
-    })
-  }
-  if (!body.number) {
-    return response.status(400).json({ 
-      error: 'number missing' 
-    })
-  }
-
-  if (persons.map(n => n.name).includes(body.name)) {
-    return response.status(400).json({ 
-      error: 'name must be unique' 
-    })
-  }
 
   const person = new Person({
     name: body.name,
@@ -98,7 +56,7 @@ app.post('/api/persons', (request, response, next) => {
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
@@ -144,7 +102,7 @@ app.use(unknownEndpoint)
 
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
-  if (error.name === 'CastError' && error.kind == 'ObjectId') {
+  if (error.name === 'CastError' && error.kind === 'ObjectId') {
     return response.status(400).send({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
