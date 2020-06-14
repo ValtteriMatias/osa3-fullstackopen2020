@@ -6,4 +6,4 @@ This is a repository for the part3 of the course full stack open 2020. For the c
 
 ## url to heroku app
 
-https://valtterifullstack.herokuapp.com/
+https://valtteri-fso-part3-2020.herokuapp.com/
